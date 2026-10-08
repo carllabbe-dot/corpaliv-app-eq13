@@ -27,15 +27,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.corpaliv_app_eq13.viewmodels.MainViewModel
+import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 import com.example.corpaliv_app_eq13.navigation.Screen
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
     viewModel: MainViewModel = viewModel()
+
 ){
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()

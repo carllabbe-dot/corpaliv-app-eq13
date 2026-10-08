@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 
 import androidx.navigation.NavController
 import com.example.corpaliv_app_eq13.navigation.Screen
-import com.example.corpaliv_app_eq13.viewmodels.MainViewModel
+import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 
 @Composable
 fun SettingsScreen(

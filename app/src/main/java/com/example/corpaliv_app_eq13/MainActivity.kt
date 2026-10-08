@@ -23,7 +23,9 @@ import com.example.corpaliv_app_eq13.ui.screens.HomeScreen
 import com.example.corpaliv_app_eq13.ui.screens.ProfileScreen
 import com.example.corpaliv_app_eq13.ui.screens.SettingsScreen
 import com.example.corpaliv_app_eq13.ui.theme.Corpalivappeq13Theme
-import com.example.corpaliv_app_eq13.viewmodels.MainViewModel
+import com.example.corpaliv_app_eq13.ui.utils.AppAdaptativa
+import com.example.corpaliv_app_eq13.ui.utils.obtenerWindowsSizeClass
+import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 
 
 import kotlinx.coroutines.flow.collectLatest
@@ -33,6 +35,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val windowSize = obtenerWindowsSizeClass()
+            AppAdaptativa(windowSize)
             Corpalivappeq13Theme() {
                 val viewModel : MainViewModel = viewModel()
                 val navController = rememberNavController()

@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.corpaliv_app_eq13.navigation.Screen
-import com.example.corpaliv_app_eq13.viewmodels.MainViewModel
+import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

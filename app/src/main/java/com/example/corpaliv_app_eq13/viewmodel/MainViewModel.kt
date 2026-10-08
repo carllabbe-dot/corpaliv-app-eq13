@@ -1,4 +1,4 @@
-package com.example.corpaliv_app_eq13.viewmodels
+package com.example.corpaliv_app_eq13.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.example.corpaliv_app_eq13.navigation.NavigationEvent
@@ -16,17 +16,17 @@ class MainViewModel: ViewModel() {
         CoroutineScope(context = Dispatchers.Main).launch {
             _navigationEvents.emit(value = NavigationEvent.NavigateTo(route = screen))
         }
-        fun navigateBack() {
-            CoroutineScope(context = Dispatchers.Main).launch {
-                _navigationEvents.emit(value = NavigationEvent.PopBackStack)
+    }
+    fun navigateBack() {
+        CoroutineScope(context = Dispatchers.Main).launch {
+            _navigationEvents.emit(value = NavigationEvent.PopBackStack)
 
 
-            }
-        }
-        fun navigateUp(){
-            CoroutineScope(context = Dispatchers.Main).launch {
-                _navigationEvents.emit(value = NavigationEvent.NavigateUp)
         }
     }
-}
+    fun navigateUp(){
+            CoroutineScope(context = Dispatchers.Main).launch {
+                _navigationEvents.emit(value = NavigationEvent.NavigateUp)
+            }
+    }
 }
