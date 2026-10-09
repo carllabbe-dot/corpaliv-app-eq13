@@ -9,11 +9,11 @@ import androidx.compose.runtime.Composable
 fun AppAdaptativa(
     windowSize: WindowSizeClass
 ){
-    when(windowSize.widthSizeClass){
-        WindowWidthSizeClass.Compact -> PantallaCompacta()
-        WindowWidthSizeClass.Medium -> PantallaMediana()
-        WindowWidthSizeClass.Expanded -> PantallaExpandida()
+    ///when(windowSize.widthSizeClass){
+///        WindowWidthSizeClass.Compact -> PantallaCompacta()
+   ///     WindowWidthSizeClass.Medium -> PantallaMediana()
+      //  WindowWidthSizeClass.Expanded -> PantallaExpandida()
 
-    }
+    //}
 }
 
