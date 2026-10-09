@@ -2,10 +2,11 @@ package com.example.corpaliv_app_eq13.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val VerdePrincipal = Color(0xFF5F8F7B)
+val VerdeOscuro = Color(0xFF3F6B5A)
+val VerdeClaro = Color(0xFFDDECE5)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val Crema = Color(0xFFF7F4EE)
+val Blanco = Color(0xFFFFFFFF)
+val GrisOscuro = Color(0xFF343A40)
+
