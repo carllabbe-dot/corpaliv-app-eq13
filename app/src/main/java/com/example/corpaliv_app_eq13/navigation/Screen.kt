@@ -7,6 +7,10 @@ sealed class Screen(val route:String){
 
     data object Settings : Screen(route="settings_page")
 
+    data object Login : Screen(route = "login_page")
+    data object Forms : Screen(route = "forms_page")
+    data object Colaborate : Screen(route = "colaborate_page")
+    data object Us : Screen(route = "us_page")
 }
 
 data class Detail(val itemId:String) : Screen(route="detail_page{itemId}"){
