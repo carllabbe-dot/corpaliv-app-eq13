@@ -22,6 +22,7 @@ import com.example.corpaliv_app_eq13.navigation.Screen
 import com.example.corpaliv_app_eq13.ui.screens.HomeScreen
 import com.example.corpaliv_app_eq13.ui.screens.ProfileScreen
 import com.example.corpaliv_app_eq13.ui.screens.SettingsScreen
+import com.example.corpaliv_app_eq13.ui.screens.UsScreen
 import com.example.corpaliv_app_eq13.ui.theme.Corpalivappeq13Theme
 import com.example.corpaliv_app_eq13.ui.utils.AppAdaptativa
 import com.example.corpaliv_app_eq13.ui.utils.obtenerWindowsSizeClass
@@ -35,8 +36,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val windowSize = obtenerWindowsSizeClass()
-            AppAdaptativa(windowSize)
+
             Corpalivappeq13Theme() {
                 val viewModel : MainViewModel = viewModel()
                 val navController = rememberNavController()
@@ -78,6 +78,9 @@ class MainActivity : ComponentActivity() {
                         composable(route= Screen.Profile.route){
                             ProfileScreen(navController = navController, viewModel = viewModel)
                         }
+                        composable(route= Screen.Us.route){
+                            UsScreen(navController = navController, viewModel = viewModel)
+                        }
 
                     }
 
@@ -99,6 +102,9 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     Corpalivappeq13Theme(){
-        Greeting("Android")
+        val navController = rememberNavController()
+        HomeScreen(
+            navController = navController
+        )
     }
 }
