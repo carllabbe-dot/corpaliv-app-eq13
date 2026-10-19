@@ -19,6 +19,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.corpaliv_app_eq13.navigation.NavigationEvent
 import com.example.corpaliv_app_eq13.navigation.Screen
+import com.example.corpaliv_app_eq13.ui.screens.ColaborateScreen
+import com.example.corpaliv_app_eq13.ui.screens.FormsScreen
 import com.example.corpaliv_app_eq13.ui.screens.HomeScreen
 import com.example.corpaliv_app_eq13.ui.screens.ProfileScreen
 import com.example.corpaliv_app_eq13.ui.screens.SettingsScreen
@@ -81,6 +83,14 @@ class MainActivity : ComponentActivity() {
                         composable(route= Screen.Us.route){
                             UsScreen(navController = navController, viewModel = viewModel)
                         }
+                        composable(route = Screen.Colaborate.route) {
+                            ColaborateScreen()
+                        }
+
+                        composable(route = Screen.Forms.route) {
+                            FormsScreen() // Recuerda que esta pantalla usa su propio FormViewModel por defecto
+                        }
+
 
                     }
 
