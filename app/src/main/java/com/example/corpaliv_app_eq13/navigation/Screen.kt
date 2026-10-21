@@ -11,7 +11,7 @@ sealed class Screen(val route:String){
     data object Forms : Screen(route = "forms_page")
     data object Colaborate : Screen(route = "colaborate_page")
     data object Us : Screen(route = "us_page")
-}
+    }
 
 data class Detail(val itemId:String) : Screen(route="detail_page{itemId}"){
     fun buildRoute():String{
