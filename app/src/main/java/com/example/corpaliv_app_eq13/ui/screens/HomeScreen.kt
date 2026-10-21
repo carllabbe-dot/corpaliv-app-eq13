@@ -104,7 +104,7 @@ fun HomeScreen(
      {
 
 
-         Text(text="Bienvenido al inicio (MVVM")
+         Text(text="Bienvenido al inicio")
          Spacer(modifier = Modifier.height(32.dp))
          Button(onClick= {viewModel.navigateTo(Screen.Settings) }){
              Text("Ir a Configuracion")
