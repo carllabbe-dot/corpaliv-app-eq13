@@ -11,20 +11,35 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
+import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -33,6 +48,7 @@ import com.example.corpaliv_app_eq13.navigation.Screen
 import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 import com.example.corpaliv_app_eq13.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -421,31 +437,100 @@ fun ColaborateScreen(
 
         // ENVIAR SOLICITUD
 
+        var guardando by remember { mutableStateOf(false) }
+        var errorGuardado by remember { mutableStateOf(false) }
+
         Button(
             onClick = {
                 intentoEnviar = true
-                formularioValido = usuarioViewModel.validarFormulario()
+                formularioValido = false
+                errorGuardado = false
+
+                if (usuarioViewModel.validarFormulario()) {
+                    guardando = true
+
+                    usuarioViewModel.guardarSolicitud(context) { exito ->
+                        guardando = false
+                        formularioValido = exito
+                        errorGuardado = !exito
+                    }
+                }
             },
+            enabled = !guardando,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Enviar solicitud")
+            Text(if (guardando) "Guardando..." else "Enviar solicitud")
         }
 
-        if (formularioValido) {
+        if (errorGuardado) {
             Text(
-                text = "Formulario validado correctamente.",
-                color = MaterialTheme.colorScheme.primary
+                text = "No fue posible guardar la solicitud.",
+                color = MaterialTheme.colorScheme.error
             )
         }
-        Button(
-            onClick = {
-                mainViewModel.navigateTo(Screen.Home)
 
 
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Volver al inicio")
+        if (formularioValido) {
+
+            Dialog(
+                onDismissRequest = {
+                    formularioValido = false
+                }
+            ) {
+                Card(
+                    shape = RoundedCornerShape(20.dp),
+                    colors = cardColors(
+                        containerColor = Color.White
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+
+                        AnimatedVisibility(
+                            visible = formularioValido,
+                            enter = fadeIn() + scaleIn()
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.CheckCircle,
+                                contentDescription = "Guardado correcto",
+                                tint = Color(0xFF238552),
+                                modifier = Modifier.size(72.dp)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text(
+                            text = "¡Guardado exitosamente!",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = Color(0xFF246B43)
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            text = "Tu solicitud ha sido guardada correctamente.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = Color.Gray
+                        )
+
+                        Spacer(modifier = Modifier.height(24.dp))
+
+                        Button(
+                            onClick = {
+                                formularioValido = false
+                            }
+                        ) {
+                            Text("Aceptar")
+                        }
+                    }
+                }
+            }
         }
-    }
-}
+    }}
