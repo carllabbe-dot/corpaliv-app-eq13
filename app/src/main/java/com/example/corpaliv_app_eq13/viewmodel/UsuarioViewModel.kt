@@ -7,6 +7,11 @@ import com.example.corpaliv_app_eq13.model.UsuarioUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import com.example.corpaliv_app_eq13.data.local.CorpalivDatabase
+import com.example.corpaliv_app_eq13.data.local.SolicitudEntity
+import android.content.Context
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 class UsuarioViewModel : ViewModel() {
 
@@ -98,9 +103,40 @@ class UsuarioViewModel : ViewModel() {
             errores.nombre,
             errores.correo,
             errores.clave,
-            errores.direccion
+            errores.direccion,
+            errores.logoEmpresa
         ).isNotEmpty()
 
         return !hayErrores && datos.aceptaTerminos
+    }
+    fun guardarSolicitud(
+        context: Context,
+        onResultado: (Boolean) -> Unit
+    ) {
+        if (!validarFormulario()) {
+            onResultado(false)
+            return
+        }
+
+        val datos = _estado.value
+
+        val solicitud = SolicitudEntity(
+            nombre = datos.nombre,
+            correo = datos.correo,
+            direccion = datos.direccion,
+            logoEmpresa = datos.logoEmpresa
+        )
+
+        viewModelScope.launch {
+            try {
+                val database = CorpalivDatabase.obtenerInstancia(context)
+
+                database.solicitudDao().insertar(solicitud)
+
+                onResultado(true)
+            } catch (e: Exception) {
+                onResultado(false)
+            }
+        }
     }
 }
