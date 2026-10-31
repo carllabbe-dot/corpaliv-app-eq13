@@ -2,13 +2,11 @@ package com.example.corpaliv_app_eq13.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -31,16 +29,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.corpaliv_app_eq13.R
 import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 import com.example.corpaliv_app_eq13.navigation.Screen
-import com.example.corpaliv_app_eq13.ui.theme.Corpalivappeq13Theme
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,6 +58,14 @@ fun HomeScreen(
                  onClick={
                      scope.launch{drawerState.close()}
                      viewModel.navigateTo(Screen.Profile)
+                 }
+             )
+             NavigationDrawerItem(
+                 label={Text(text="Colabora aquí!")},
+                 selected = false,
+                 onClick={
+                     scope.launch{drawerState.close()}
+                     viewModel.navigateTo(Screen.Colaborate)
                  }
              )
          }
@@ -119,13 +122,4 @@ fun HomeScreen(
      }
  }}
 }
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Corpalivappeq13Theme(){
-        val navController = rememberNavController()
-        HomeScreen(
-            navController = navController
-        )
-    }
-}
+
