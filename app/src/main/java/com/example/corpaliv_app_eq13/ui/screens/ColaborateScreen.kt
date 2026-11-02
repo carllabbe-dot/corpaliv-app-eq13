@@ -42,6 +42,8 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.corpaliv_app_eq13.components.Header
 import com.example.corpaliv_app_eq13.navigation.Screen
+import com.example.corpaliv_app_eq13.ui.theme.VerdeOscuro
+import com.example.corpaliv_app_eq13.ui.theme.VerdePrincipal
 import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 import com.example.corpaliv_app_eq13.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.Dispatchers
@@ -64,7 +66,6 @@ fun ColaborateScreen(
         mutableStateOf(false)
     }
 
-    // PERMISOS PARA ACCEDER A LAS IMÁGENES
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -101,7 +102,6 @@ fun ColaborateScreen(
     }
 
 
-    // COMPROBAR SI TENEMOS AUTORIZACIÓN
 
     fun tienePermisoFotos(): Boolean {
         return permisosFotos.any { permiso ->
@@ -112,7 +112,7 @@ fun ColaborateScreen(
         }
     }
 
-    // CONSULTAR FOTOS AUTORIZADAS CON MEDIASTORE
+
 
     fun abrirGaleria() {
         mensajePermiso = null
@@ -168,7 +168,6 @@ fun ColaborateScreen(
         }
     }
 
-    // SOLICITAR PERMISOS A ANDROID
 
     val solicitarPermisos = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
@@ -185,7 +184,6 @@ fun ColaborateScreen(
         }
     }
 
-    // GALERÍA PROPIA
 
     if (mostrarGaleria) {
         AlertDialog(
@@ -309,8 +307,6 @@ fun ColaborateScreen(
             text = "Completa tus datos para solicitar tu inscripción."
         )
 
-        // NOMBRE
-
         OutlinedTextField(
             value = estado.nombre,
             onValueChange = {
@@ -328,7 +324,6 @@ fun ColaborateScreen(
             singleLine = true
         )
 
-        // CORREO
 
         OutlinedTextField(
             value = estado.correo,
@@ -347,7 +342,6 @@ fun ColaborateScreen(
             singleLine = true
         )
 
-        // CONTRASEÑA
 
         OutlinedTextField(
             value = estado.clave,
@@ -367,7 +361,6 @@ fun ColaborateScreen(
             singleLine = true
         )
 
-        // DIRECCIÓN
 
         OutlinedTextField(
             value = estado.direccion,
@@ -384,8 +377,6 @@ fun ColaborateScreen(
             },
             modifier = Modifier.fillMaxWidth()
         )
-
-        // LOGO DE LA EMPRESA
 
         Text(
             text = "Logo de tu empresa *",
@@ -430,8 +421,6 @@ fun ColaborateScreen(
             }
         }
 
-        // MENSAJE DE PERMISOS
-
         mensajePermiso?.let { mensaje ->
             Text(
                 text = mensaje,
@@ -440,7 +429,6 @@ fun ColaborateScreen(
             )
         }
 
-        // ERROR DEL LOGO
 
         estado.errores.logoEmpresa?.let { mensaje ->
             Text(
@@ -450,7 +438,6 @@ fun ColaborateScreen(
             )
         }
 
-        // TÉRMINOS Y CONDICIONES
 
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -476,7 +463,6 @@ fun ColaborateScreen(
 
         HorizontalDivider()
 
-        // ENVIAR SOLICITUD
 
         var guardando by remember { mutableStateOf(false) }
         var errorGuardado by remember { mutableStateOf(false) }
@@ -550,7 +536,7 @@ fun ColaborateScreen(
                         Text(
                             text = "¡Guardado exitosamente!",
                             style = MaterialTheme.typography.titleLarge,
-                            color = Color(0xFF246B43)
+                            color = VerdePrincipal
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -581,12 +567,12 @@ fun ColaborateScreen(
             modifier = Modifier.fillMaxWidth(),
             border = BorderStroke(
                 width = 1.dp,
-                color = Color(0xFF3F6B5A)
+                color = VerdeOscuro
             )
         ) {
             Text(
                 text = "Volver al inicio",
-                color = Color(0xFF3F6B5A)
+                color = VerdeOscuro
             )
         }
     }}}}

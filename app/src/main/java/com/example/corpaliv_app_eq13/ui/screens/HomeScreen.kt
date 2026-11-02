@@ -52,6 +52,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.example.corpaliv_app_eq13.ui.theme.Corpalivappeq13Theme
+import com.example.corpaliv_app_eq13.ui.theme.Crema
+import com.example.corpaliv_app_eq13.ui.theme.VerdeOscuro
+import com.example.corpaliv_app_eq13.ui.theme.VerdePrincipal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -117,7 +120,7 @@ fun HomeScreen(
          modifier = Modifier
              .padding(innerPadding)
              .fillMaxSize()
-             .background(Color(0xFFF7F4EE))
+             .background(Crema)
              .verticalScroll(rememberScrollState())
              .padding(20.dp),
          verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -128,7 +131,7 @@ fun HomeScreen(
              modifier = Modifier.fillMaxWidth(),
              shape = RoundedCornerShape(24.dp),
              colors = CardDefaults.cardColors(
-                 containerColor = Color(0xFF3F6B5A)
+                 containerColor = VerdeOscuro
              ),
              elevation = CardDefaults.cardElevation(
                  defaultElevation = 4.dp
@@ -140,21 +143,21 @@ fun HomeScreen(
              ) {
                  Text(
                      text = "BIENVENIDO A CORPALIV",
-                     color = Color(0xFFD5EBDF),
+                     color = VerdeOscuro,
                      fontSize = 12.sp,
                      fontWeight = FontWeight.Bold
                  )
 
                  Text(
                      text = "Juntos podemos hacer la diferencia.",
-                     color = Color.White,
+                     color = MaterialTheme.colorScheme.onSecondary,
                      style = MaterialTheme.typography.headlineMedium,
                      fontWeight = FontWeight.Bold
                  )
 
                  Text(
                      text = "Conoce nuestra organización y descubre cómo puedes colaborar.",
-                     color = Color(0xFFE2F0E8),
+                     color = Crema,
                      style = MaterialTheme.typography.bodyMedium
                  )
 
@@ -163,8 +166,8 @@ fun HomeScreen(
                          viewModel.navigateTo(Screen.Us)
                      },
                      colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                         containerColor = Color.White,
-                         contentColor = Color(0xFF3F6B5A)
+                         containerColor = MaterialTheme.colorScheme.onSecondary,
+                         contentColor = VerdePrincipal
                      )
                  ) {
                      Text("Conoce CORPALIV")
@@ -177,7 +180,7 @@ fun HomeScreen(
              text = "Explora nuestra comunidad",
              style = MaterialTheme.typography.titleLarge,
              fontWeight = FontWeight.Bold,
-             color = Color(0xFF233B32)
+             color = VerdeOscuro
          )
 
          // TARJETA PARA COLABORAR
@@ -189,7 +192,7 @@ fun HomeScreen(
                  },
              shape = RoundedCornerShape(18.dp),
              colors = CardDefaults.cardColors(
-                 containerColor = Color.White
+                 containerColor = MaterialTheme.colorScheme.onSecondary
              ),
              elevation = CardDefaults.cardElevation(3.dp)
          ) {
@@ -200,16 +203,13 @@ fun HomeScreen(
                  verticalAlignment = Alignment.CenterVertically,
                  horizontalArrangement = Arrangement.spacedBy(16.dp)
              ) {
-                 Text(
-                     text = "🤝",
-                     fontSize = 32.sp
-                 )
+
 
                  Column {
                      Text(
                          text = "Colabora con nosotros",
                          fontWeight = FontWeight.Bold,
-                         color = Color(0xFF233B32)
+                         color = VerdeOscuro
                      )
                      Text(
                          text = "Envía tu solicitud de colaboración.",
@@ -229,7 +229,7 @@ fun HomeScreen(
                  },
              shape = RoundedCornerShape(18.dp),
              colors = CardDefaults.cardColors(
-                 containerColor = Color.White
+                 containerColor = MaterialTheme.colorScheme.onSecondary
              ),
              elevation = CardDefaults.cardElevation(3.dp)
          ) {
@@ -240,16 +240,12 @@ fun HomeScreen(
                  verticalAlignment = Alignment.CenterVertically,
                  horizontalArrangement = Arrangement.spacedBy(16.dp)
              ) {
-                 Text(
-                     text = "⚙️",
-                     fontSize = 32.sp
-                 )
 
                  Column {
                      Text(
                          text = "Configuración",
                          fontWeight = FontWeight.Bold,
-                         color = Color(0xFF233B32)
+                         color = VerdeOscuro
                      )
                      Text(
                          text = "Personaliza tu experiencia.",
