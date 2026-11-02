@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.corpaliv_app_eq13.components.CorpalivDrawer
 import com.example.corpaliv_app_eq13.components.Header
 import com.example.corpaliv_app_eq13.navigation.Screen
 import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
@@ -27,37 +28,10 @@ fun SettingsScreen(
 
     val scope = rememberCoroutineScope()
 
-    ModalNavigationDrawer(
+    CorpalivDrawer(
         drawerState = drawerState,
-        drawerContent ={
-            ModalDrawerSheet {
-                Text(
-                    text = "Menú CORPALIV",
-                    modifier = Modifier.padding(16.dp)
-                )
-                NavigationDrawerItem(
-                    label = { Text("Inicio") },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
-                        viewModel.navigateTo(Screen.Home)
-                    }
-                )
-                NavigationDrawerItem(
-                    label = { Text("Mi perfil") },
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            drawerState.close()
-                        }
-                        viewModel.navigateTo(Screen.Profile)
-                    }
-                )
-            }
-        }
-    ) {
+        mainViewModel = viewModel
+    )  {
         Scaffold(
             topBar = {
                 Header(

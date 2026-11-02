@@ -40,6 +40,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.corpaliv_app_eq13.components.CorpalivDrawer
 import com.example.corpaliv_app_eq13.components.Header
 import com.example.corpaliv_app_eq13.navigation.Screen
 import com.example.corpaliv_app_eq13.ui.theme.VerdeOscuro
@@ -246,23 +247,10 @@ fun ColaborateScreen(
         )
     }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    ModalNavigationDrawer(
+    CorpalivDrawer(
         drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Text(text = "Menu",modifier = Modifier.padding(all=16.dp))
-                NavigationDrawerItem(
-                    label={Text(text="Ir al Perfil")},
-                    selected = false,
-                    onClick={
-                        scope.launch{
-                            drawerState.close()
-                            mainViewModel.navigateTo(Screen.Profile)
-                    }}
-                )
-            }
-        }
-    ){
+        mainViewModel = mainViewModel
+    ) {
         Scaffold(
             topBar = {
                 Header(

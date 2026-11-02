@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.corpaliv_app_eq13.components.CorpalivDrawer
 import com.example.corpaliv_app_eq13.navigation.Screen
 import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
@@ -42,21 +43,9 @@ fun LoginScreen(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     //Hamburguesa
-    ModalNavigationDrawer(
+    CorpalivDrawer(
         drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Text(text = "Menu",modifier = Modifier.padding(all=16.dp))
-                NavigationDrawerItem(
-                    label={Text(text="Ir al Perfil")},
-                    selected = false,
-                    onClick={
-                        scope.launch{drawerState.close()}
-                        viewModel.navigateTo(Screen.Profile)
-                    }
-                )
-            }
-        }
+        mainViewModel = viewModel
     )
     //Abajo la pantalla
     {  Scaffold(

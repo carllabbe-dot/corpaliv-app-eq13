@@ -51,6 +51,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
+import com.example.corpaliv_app_eq13.components.CorpalivDrawer
 import com.example.corpaliv_app_eq13.ui.theme.Corpalivappeq13Theme
 import com.example.corpaliv_app_eq13.ui.theme.Crema
 import com.example.corpaliv_app_eq13.ui.theme.VerdeOscuro
@@ -65,30 +66,10 @@ fun HomeScreen(
 ){
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
- ModalNavigationDrawer(
-     drawerState = drawerState,
-     drawerContent = {
-         ModalDrawerSheet {
-             Text(text = "Menu",modifier = Modifier.padding(all=16.dp))
-             NavigationDrawerItem(
-                 label={Text(text="Ir al Perfil")},
-                 selected = false,
-                 onClick={
-                     scope.launch{drawerState.close()}
-                     viewModel.navigateTo(Screen.Profile)
-                 }
-             )
-             NavigationDrawerItem(
-                 label={Text(text="Colabora aquí!")},
-                 selected = false,
-                 onClick={
-                     scope.launch{drawerState.close()}
-                     viewModel.navigateTo(Screen.Colaborate)
-                 }
-             )
-         }
-     }
- )   {  Scaffold(
+    CorpalivDrawer(
+        drawerState = drawerState,
+        mainViewModel = viewModel
+    )    {  Scaffold(
         topBar={
             TopAppBar(
                 title ={Text("")},
