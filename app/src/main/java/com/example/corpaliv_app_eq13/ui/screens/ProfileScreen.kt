@@ -1,62 +1,80 @@
 package com.example.corpaliv_app_eq13.ui.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.corpaliv_app_eq13.components.Header
 import com.example.corpaliv_app_eq13.navigation.Screen
 import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
+import kotlinx.coroutines.launch
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     navController: NavController,
     viewModel: MainViewModel = viewModel()
+
 ){
     val items = listOf(Screen.Home, Screen.Profile)
     var selectedItem by remember { mutableStateOf(1) }
-    Scaffold(
-        bottomBar = {
-            NavigationBar {
-                items.forEachIndexed { index, screen ->
-                    NavigationBarItem(
-                        selected = selectedItem == index,
-                        onClick = {
-                            selectedItem = index
-                            viewModel.navigateTo(screen)
+    val drawerState = rememberDrawerState(
+        initialValue = DrawerValue.Closed
+    )
 
-                        },
-                        label = { Text(screen.route) },
-                        icon = {
-                            Icon(
-                                imageVector = if (screen == Screen.Home
-                                ) Icons.Default.Home else Icons.Default.Person,
-                                contentDescription = screen.route
-                            )
+    val scope = rememberCoroutineScope()
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent ={
+            ModalDrawerSheet {
+                Text(
+                    text = "Menú CORPALIV",
+                    modifier = Modifier.padding(16.dp)
+                )
+                NavigationDrawerItem(
+                    label = { Text("Inicio") },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
                         }
-                    )
-                }
+                        viewModel.navigateTo(Screen.Home)
+                    }
+                )
+                NavigationDrawerItem(
+                    label = { Text("Mi perfil") },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                        }
+                        viewModel.navigateTo(Screen.Profile)
+                    }
+                )
             }
         }
-    ) {innerPadding ->
+    ) {
+        Scaffold(
+            topBar = {
+                Header(
+                    onMenuClick = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            }
+        ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -68,4 +86,4 @@ fun ProfileScreen(
         }
 
     }
-}
+}}

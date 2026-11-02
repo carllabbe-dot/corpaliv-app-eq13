@@ -3,10 +3,8 @@ package com.example.corpaliv_app_eq13.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -37,6 +35,23 @@ import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 import com.example.corpaliv_app_eq13.navigation.Screen
 
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
+import com.example.corpaliv_app_eq13.ui.theme.Corpalivappeq13Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -86,7 +101,7 @@ fun HomeScreen(
                         painter = painterResource(R.drawable.logo_corpaliv),
                         contentDescription = "Logo Corpaliv",
                         modifier = Modifier
-                            .width(120.dp)
+                            .width(210.dp)
                             .height(70.dp)
                             .padding(end = 8.dp),
                         contentScale = ContentScale.Fit
@@ -96,30 +111,164 @@ fun HomeScreen(
         },
 
 
- ){innerPadding ->
+ ) { innerPadding ->
+
      Column(
          modifier = Modifier
-             .padding(paddingValues = innerPadding)
-             .fillMaxSize(),
-         horizontalAlignment = Alignment.CenterHorizontally,
-         verticalArrangement = Arrangement.Center
-     )
-     {
+             .padding(innerPadding)
+             .fillMaxSize()
+             .background(Color(0xFFF7F4EE))
+             .verticalScroll(rememberScrollState())
+             .padding(20.dp),
+         verticalArrangement = Arrangement.spacedBy(20.dp)
+     ) {
 
-
-         Text(text="Bienvenido al inicio")
-         Spacer(modifier = Modifier.height(32.dp))
-         Button(onClick= {viewModel.navigateTo(Screen.Settings) }){
-             Text("Ir a Configuracion")
-         }
-         Button(
-             onClick = {
-                 viewModel.navigateTo(Screen.Us)
-             }
+         // TARJETA PRINCIPAL DE BIENVENIDA
+         Card(
+             modifier = Modifier.fillMaxWidth(),
+             shape = RoundedCornerShape(24.dp),
+             colors = CardDefaults.cardColors(
+                 containerColor = Color(0xFF3F6B5A)
+             ),
+             elevation = CardDefaults.cardElevation(
+                 defaultElevation = 4.dp
+             )
          ) {
-             Text("Conoce CORPALIV")
+             Column(
+                 modifier = Modifier.padding(24.dp),
+                 verticalArrangement = Arrangement.spacedBy(16.dp)
+             ) {
+                 Text(
+                     text = "BIENVENIDO A CORPALIV",
+                     color = Color(0xFFD5EBDF),
+                     fontSize = 12.sp,
+                     fontWeight = FontWeight.Bold
+                 )
+
+                 Text(
+                     text = "Juntos podemos hacer la diferencia.",
+                     color = Color.White,
+                     style = MaterialTheme.typography.headlineMedium,
+                     fontWeight = FontWeight.Bold
+                 )
+
+                 Text(
+                     text = "Conoce nuestra organización y descubre cómo puedes colaborar.",
+                     color = Color(0xFFE2F0E8),
+                     style = MaterialTheme.typography.bodyMedium
+                 )
+
+                 Button(
+                     onClick = {
+                         viewModel.navigateTo(Screen.Us)
+                     },
+                     colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                         containerColor = Color.White,
+                         contentColor = Color(0xFF3F6B5A)
+                     )
+                 ) {
+                     Text("Conoce CORPALIV")
+                 }
+             }
+         }
+
+         // TITULO DE LA SECCIÓN
+         Text(
+             text = "Explora nuestra comunidad",
+             style = MaterialTheme.typography.titleLarge,
+             fontWeight = FontWeight.Bold,
+             color = Color(0xFF233B32)
+         )
+
+         // TARJETA PARA COLABORAR
+         Card(
+             modifier = Modifier
+                 .fillMaxWidth()
+                 .clickable {
+                     viewModel.navigateTo(Screen.Colaborate)
+                 },
+             shape = RoundedCornerShape(18.dp),
+             colors = CardDefaults.cardColors(
+                 containerColor = Color.White
+             ),
+             elevation = CardDefaults.cardElevation(3.dp)
+         ) {
+             Row(
+                 modifier = Modifier
+                     .fillMaxWidth()
+                     .padding(20.dp),
+                 verticalAlignment = Alignment.CenterVertically,
+                 horizontalArrangement = Arrangement.spacedBy(16.dp)
+             ) {
+                 Text(
+                     text = "🤝",
+                     fontSize = 32.sp
+                 )
+
+                 Column {
+                     Text(
+                         text = "Colabora con nosotros",
+                         fontWeight = FontWeight.Bold,
+                         color = Color(0xFF233B32)
+                     )
+                     Text(
+                         text = "Envía tu solicitud de colaboración.",
+                         style = MaterialTheme.typography.bodySmall,
+                         color = Color.Gray
+                     )
+                 }
+             }
+         }
+
+         // TARJETA DE CONFIGURACIÓN
+         Card(
+             modifier = Modifier
+                 .fillMaxWidth()
+                 .clickable {
+                     viewModel.navigateTo(Screen.Settings)
+                 },
+             shape = RoundedCornerShape(18.dp),
+             colors = CardDefaults.cardColors(
+                 containerColor = Color.White
+             ),
+             elevation = CardDefaults.cardElevation(3.dp)
+         ) {
+             Row(
+                 modifier = Modifier
+                     .fillMaxWidth()
+                     .padding(20.dp),
+                 verticalAlignment = Alignment.CenterVertically,
+                 horizontalArrangement = Arrangement.spacedBy(16.dp)
+             ) {
+                 Text(
+                     text = "⚙️",
+                     fontSize = 32.sp
+                 )
+
+                 Column {
+                     Text(
+                         text = "Configuración",
+                         fontWeight = FontWeight.Bold,
+                         color = Color(0xFF233B32)
+                     )
+                     Text(
+                         text = "Personaliza tu experiencia.",
+                         style = MaterialTheme.typography.bodySmall,
+                         color = Color.Gray
+                     )
+                 }
+             }
          }
      }
- }}
-}
 
+ }}}
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    Corpalivappeq13Theme(){
+        val navController = rememberNavController()
+        HomeScreen(
+            navController = navController
+        )
+    }
+}

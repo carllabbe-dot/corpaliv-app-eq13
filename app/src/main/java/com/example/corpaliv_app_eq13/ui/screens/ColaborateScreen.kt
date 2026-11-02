@@ -12,14 +12,9 @@ import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,17 +33,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.corpaliv_app_eq13.components.Header
 import com.example.corpaliv_app_eq13.navigation.Screen
 import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
 import com.example.corpaliv_app_eq13.viewmodel.UsuarioViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -103,6 +99,7 @@ fun ColaborateScreen(
     var cargandoImagenes by remember {
         mutableStateOf(false)
     }
+
 
     // COMPROBAR SI TENEMOS AUTORIZACIÓN
 
@@ -250,10 +247,54 @@ fun ColaborateScreen(
             }
         )
     }
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                Text(text = "Menu",modifier = Modifier.padding(all=16.dp))
+                NavigationDrawerItem(
+                    label={Text(text="Ir al Perfil")},
+                    selected = false,
+                    onClick={
+                        scope.launch{
+                            drawerState.close()
+                            mainViewModel.navigateTo(Screen.Profile)
+                    }}
+                )
+            }
+        }
+    ){
+        Scaffold(
+            topBar = {
+                Header(
+                    onMenuClick = {
+                        scope.launch {
+                            drawerState.open()
+                        }
+                    }
+                )
+            },
 
+
+            bottomBar = {
+                BottomAppBar(
+                    containerColor =
+                        MaterialTheme.colorScheme.primaryContainer
+                ) {
+                    Text(
+                        text = "CORPALIV · Alba Lab",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+        ) { innerPadding ->
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .padding(innerPadding)
             .verticalScroll(rememberScrollState())
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -533,4 +574,19 @@ fun ColaborateScreen(
                 }
             }
         }
-    }}
+        OutlinedButton(
+            onClick = {
+                mainViewModel.navigateTo(Screen.Home)
+            },
+            modifier = Modifier.fillMaxWidth(),
+            border = BorderStroke(
+                width = 1.dp,
+                color = Color(0xFF3F6B5A)
+            )
+        ) {
+            Text(
+                text = "Volver al inicio",
+                color = Color(0xFF3F6B5A)
+            )
+        }
+    }}}}
