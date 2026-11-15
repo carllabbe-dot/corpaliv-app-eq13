@@ -21,6 +21,7 @@ import com.example.corpaliv_app_eq13.navigation.NavigationEvent
 import com.example.corpaliv_app_eq13.navigation.Screen
 import com.example.corpaliv_app_eq13.ui.screens.ColaborateScreen
 import com.example.corpaliv_app_eq13.ui.screens.HomeScreen
+import com.example.corpaliv_app_eq13.ui.screens.PostScreen
 import com.example.corpaliv_app_eq13.ui.screens.ProfileScreen
 import com.example.corpaliv_app_eq13.ui.screens.SettingsScreen
 import com.example.corpaliv_app_eq13.ui.screens.UsScreen
@@ -84,6 +85,12 @@ class MainActivity : ComponentActivity() {
                             ColaborateScreen(
                                 mainViewModel = viewModel,
                                 navController = navController
+                            )
+                        }
+                        composable(route = Screen.Posts.route) {
+                            PostScreen(
+                                navController = navController,
+                                mainViewModel = viewModel
                             )
                         }
 

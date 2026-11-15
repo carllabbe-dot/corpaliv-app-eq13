@@ -68,6 +68,17 @@ fun CorpalivDrawer(
                 )
 
                 NavigationDrawerItem(
+                    label = { Text("Novedades y Noticias (API)") },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                            mainViewModel.navigateTo(Screen.Posts)
+                        }
+                    }
+                )
+
+                NavigationDrawerItem(
                     label = { Text("Mi perfil") },
                     selected = false,
                     onClick = {

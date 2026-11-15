@@ -201,6 +201,41 @@ fun HomeScreen(
              }
          }
 
+         // TARJETA DE NOTICIAS / API REST
+         Card(
+             modifier = Modifier
+                 .fillMaxWidth()
+                 .clickable {
+                     viewModel.navigateTo(Screen.Posts)
+                 },
+             shape = RoundedCornerShape(18.dp),
+             colors = CardDefaults.cardColors(
+                 containerColor = MaterialTheme.colorScheme.onSecondary
+             ),
+             elevation = CardDefaults.cardElevation(3.dp)
+         ) {
+             Row(
+                 modifier = Modifier
+                     .fillMaxWidth()
+                     .padding(20.dp),
+                 verticalAlignment = Alignment.CenterVertically,
+                 horizontalArrangement = Arrangement.spacedBy(16.dp)
+             ) {
+                 Column {
+                     Text(
+                         text = "Novedades y Noticias",
+                         fontWeight = FontWeight.Bold,
+                         color = VerdeOscuro
+                     )
+                     Text(
+                         text = "Publicaciones en tiempo real desde la API externa.",
+                         style = MaterialTheme.typography.bodySmall,
+                         color = Color.Gray
+                     )
+                 }
+             }
+         }
+
          // TARJETA DE CONFIGURACIÓN
          Card(
              modifier = Modifier

@@ -39,6 +39,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.compose.animation)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
     implementation("io.coil-kt:coil-compose:2.7.0")
