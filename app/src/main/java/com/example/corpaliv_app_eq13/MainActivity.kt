@@ -20,9 +20,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.corpaliv_app_eq13.navigation.NavigationEvent
 import com.example.corpaliv_app_eq13.navigation.Screen
 import com.example.corpaliv_app_eq13.ui.screens.ColaborateScreen
+import com.example.corpaliv_app_eq13.ui.screens.DiscapacidadScreen
 import com.example.corpaliv_app_eq13.ui.screens.HomeScreen
 import com.example.corpaliv_app_eq13.ui.screens.ProfileScreen
 import com.example.corpaliv_app_eq13.ui.screens.SettingsScreen
+import com.example.corpaliv_app_eq13.ui.screens.SolicitudesScreen
 import com.example.corpaliv_app_eq13.ui.screens.UsScreen
 import com.example.corpaliv_app_eq13.ui.theme.Corpalivappeq13Theme
 import com.example.corpaliv_app_eq13.viewmodel.MainViewModel
@@ -84,6 +86,20 @@ class MainActivity : ComponentActivity() {
                             ColaborateScreen(
                                 mainViewModel = viewModel,
                                 navController = navController
+                            )
+                        }
+                        composable(route = Screen.Solicitudes.route) {
+                            SolicitudesScreen(
+                                viewModel = viewModel
+                            )
+                        }
+                        composable(route = Screen.Discapacidad.route) {
+
+                            DiscapacidadScreen(
+                                mainViewModel = viewModel,
+                                onBack = {
+                                    viewModel.navigateBack()
+                                }
                             )
                         }
 
