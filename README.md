@@ -1,490 +1,308 @@
-\# 📱 CORPALIV App — Equipo 13
+# 📱 CORPALIV App — Equipo 13
 
+Aplicación móvil institucional para **CORPALIV** (Corporación de Padres y Amigos por el Limitado Visual), desarrollada en Android nativo con Kotlin y Jetpack Compose para la asignatura **DSY1105 — Desarrollo de Aplicaciones Móviles, Evaluación Parcial 4**.
 
+## 📋 Descripción del proyecto
 
-Aplicación móvil institucional y de catálogo social para \*\*CORPALIV\*\* (Corporación de Padres y Amigos por el Limitado Visual), desarrollada en \*\*Android nativo con Kotlin y Jetpack Compose\*\* como parte de la asignatura \*\*DSY1105 — Desarrollo de Aplicaciones Móviles\*\* (Evaluación Parcial 2).
+CORPALIV App facilita la difusión de la labor social de la corporación y Alba Lab, la recepción y administración de solicitudes de colaboración y el acceso a información pública sobre discapacidad en Chile. Integra una aplicación Android, un microservicio REST propio y una API externa independiente.
 
+## 👥 Integrantes
 
+| Nombre | Equipo |
+|---|---|
+| Carlos Labbe | 13 |
+| Damian Marro | 13 |
 
-\---
+- **Sección:** DSY1105_001V
+- **Docente:** Nicolas Andres Muñoz Mora
+- **Repositorio:** https://github.com/carllabbe-dot/corpaliv-app-eq13
+- **Trello:** https://trello.com/b/I9KvOhUd/desarrolloappmovil
 
+## 🎯 Contexto del cliente
 
+CORPALIV es una corporación sin fines de lucro que trabaja con personas con discapacidad visual. A través de Alba Lab impulsa iniciativas y productos artesanales. La aplicación busca facilitar la vinculación con potenciales colaboradores y dar visibilidad a información relacionada con la discapacidad y la inclusión.
 
-\## 📋 Descripción del proyecto
+## ✅ Funcionalidades implementadas en el código
 
+- Pantalla de inicio, información institucional, perfil y ajustes.
+- Navegación mediante NavHost, Drawer y eventos de MainViewModel.
+- Header y Drawer reutilizables.
+- Formulario de colaboración con validación de nombre, correo, clave, dirección, logo y aceptación de términos.
+- Selección de imagen del logo desde el dispositivo y visualización con Coil.
+- Retroalimentación de guardado mediante mensaje animado.
+- Creación, consulta, edición y eliminación de solicitudes mediante el microservicio propio.
+- Copia local de solicitudes creadas mediante Room.
+- Consulta de conjuntos de datos públicos sobre discapacidad desde una API externa mediante Retrofit.
+- Visualización de títulos, descripciones y enlaces a archivos PDF y CSV, con estados de carga, error y reintento.
+- Pruebas unitarias de validación, navegación y repositorio.
+- Generación de APK de release y almacén de claves `.jks`.
 
+La presencia de estas funcionalidades en el código no sustituye la comprobación final de su ejecución en el emulador y en el APK de release.
 
-\*\*CORPALIV App\*\* es una aplicación móvil que permite a los usuarios:
-
-
-
-\- Conocer la misión, programas e impacto social de CORPALIV.
-
-\- Explorar un catálogo de productos artesanales y servicios de \*\*Alba Lab\*\*.
-
-\- Enviar solicitudes de colaboración (donaciones, alianzas, voluntariado, compras) mediante un formulario reactivo con validación en tiempo real.
-
-\- Visualizar un resumen de su solicitud antes de confirmarla.
-
-\- Guardar solicitudes, productos favoritos y consultar un historial local.
-
-\- Calcular el impacto social de una donación simulada.
-
-\- Acceder a recursos nativos del dispositivo (cámara y geolocalización).
-
-\- Compartir fichas de productos o causas con otras aplicaciones.
-
-
-
-Toda la persistencia es \*\*local\*\* (Room + SQLite), sin backend remoto. La información mostrada es \*\*sintética\*\* (no se usan datos reales de beneficiarios, conforme a RNF6).
-
-
-
-\---
-
-
-
-\## 👥 Integrantes del equipo
-
-
-
-| Nombre | Rol | GitHub |
-
-|---|---|---|
-
-|Carlos Labbe | 
-
-|Damian Marro | 
-
-
-
-\*\*Equipo:\*\* N° Grupo 13
-
-\*\*Sección:\*\* DSY1105\_001V 
-
-\*\*Docente:\*\* Nicolas Andres Muñoz Mora
-
-
-
-\---
-
-
-
-\## 🎯 Contexto del cliente
-
-
-
-\*\*CORPALIV\*\* es una corporación sin fines de lucro que trabaja con personas con discapacidad visual. A través de \*\*Alba Lab\*\*, comercializa productos artesanales y ofrece talleres y servicios. La app busca digitalizar la captación de solicitudes de colaboración y dar visibilidad a su impacto social.
-
-
-
-\---
-
-
-
-\## 🛠️ Tecnologías utilizadas
-
-
+## 🛠️ Tecnologías utilizadas
 
 | Categoría | Tecnología |
-
 |---|---|
+| Lenguajes | Kotlin 2.2.10 y Java (nivel 17 en backend) |
+| Interfaz | Jetpack Compose, Material Design 3 |
+| Arquitectura móvil | MVVM, flujo unidireccional de estados y eventos |
+| Estado y asincronía | ViewModel, StateFlow, SharedFlow, corrutinas |
+| Navegación | Navigation Compose 2.7.7 |
+| Persistencia local | Room 2.8.5 (SQLite) |
+| Consumo REST | Retrofit 2.12.0 y Gson |
+| Imágenes | Coil 2.7.0 |
+| Backend | Spring Boot 4.2.0 (versión declarada en pom.xml), Maven |
+| Persistencia remota | Spring Data JPA, Hibernate, H2 en archivo |
+| API externa | CKAN — Ministerio de Desarrollo Social y Familia |
+| Pruebas | JUnit 4.13.2, MockK 1.13.12, kotlinx-coroutines-test |
+| Compilación Android | AGP 9.4.1, Gradle Wrapper 9.8.0, KSP |
+| Control de versiones y planificación | Git, GitHub y Trello |
 
-| Lenguaje | Kotlin |
+## 🏗️ Arquitectura
 
-| UI | Jetpack Compose + Material Design 3 |
+```text
+Android / Jetpack Compose
+  ├── MainViewModel → eventos de navegación → NavHost
+  ├── UsuarioViewModel → SolicitudRepository → Retrofit → Spring Boot
+  │                    └── Room (copia local tras creación remota)
+  ├── SolicitudesScreen → SolicitudRepository → Retrofit → Spring Boot
+  └── DiscapacidadViewModel → DiscapacidadRepository → Retrofit → API CKAN
 
-| Arquitectura | MVVM + UDF (Unidirectional Data Flow) |
-
-| Gestión de estado | ViewModel + StateFlow + SharedFlow (eventos) |
-
-| Navegación | Navigation Compose |
-
-| Persistencia local | Room (SQLite) |
-
-| Carga de imágenes | Coil |
-
-| Recursos nativos | CameraX / ActivityResultContracts + Fused Location Provider |
-
-| Animaciones | Compose Animation API |
-
-| Control de versiones | Git + GitHub |
-
-| Gestión de tareas | Trello |
-
-
-
-\---
-
-
-
-\## 🏗️ Arquitectura
-
-
-
-El proyecto sigue el patrón \*\*MVVM\*\* con \*\*flujo unidireccional de datos (UDF)\*\* y una navegación basada en \*\*eventos\*\* emitidos por el `ViewModel`.
-
-
-
+Spring Boot → Controller → Service → Repository JPA → H2
 ```
 
-UI (Compose)  ──eventos──►  ViewModel  ──acciones──►  Repository  ──►  Room / Recursos nativos
+La interfaz observa estados del ViewModel y presenta datos o mensajes de error. La pantalla de administración de solicitudes utiliza directamente el repositorio para consultar y modificar registros. Cada API dispone de su propio cliente Retrofit.
 
-&#x20;             ◄──StateFlow──                        ◄── Flow ──
+### Estructura de paquetes y carpetas
 
+```text
+corpalivappeq13/
+├── app/
+│   ├── src/main/java/com/example/corpaliv_app_eq13/
+│   │   ├── MainActivity.kt
+│   │   ├── components/         # Header y CorpalivDrawer
+│   │   ├── data/
+│   │   │   ├── local/          # Room: Entity, DAO, Database
+│   │   │   ├── remote/         # API propia, DTO y RetrofitClient
+│   │   │   ├── external/       # API CKAN, DTO y cliente Retrofit
+│   │   │   └── repository/     # Repositorios de solicitudes y discapacidad
+│   │   ├── model/              # Estados y errores del formulario
+│   │   ├── navigation/         # Screen y NavigationEvent
+│   │   ├── ui/                 # screens, theme y utils
+│   │   └── viewmodel/
+│   ├── src/test/               # Pruebas unitarias
+│   └── release/app-release.apk
+├── backend/ms-solicitudes/
+│   ├── src/main/java/cl/corpaliv/ms_solicitudes/
+│   │   ├── controller/
+│   │   ├── entity/
+│   │   ├── repository/
+│   │   └── service/
+│   ├── src/main/resources/application.yaml
+│   ├── pom.xml
+│   └── mvnw.cmd
+└── README.md
 ```
 
+## 🗄️ Microservicio y base de datos
 
+El microservicio `ms-solicitudes` se ejecuta independientemente de la aplicación Android en el puerto `8081`.
 
-\*\*Estructura de paquetes:\*\*
+Utiliza H2 en modo archivo (`jdbc:h2:file:./data/corpalivdb`). Hibernate crea o actualiza la estructura mediante `ddl-auto: update` al iniciar el servidor. La entidad JPA `Solicitud` representa la tabla `solicitudes`:
 
+| Campo | Tipo Java | Descripción |
+|---|---|---|
+| id | Long | Identificador autogenerado |
+| nombre | String | Nombre del colaborador |
+| correo | String | Correo de contacto |
+| direccion | String | Dirección |
+| logoEmpresa | String | URI o referencia al logo seleccionado |
 
+Room mantiene una copia local tras la creación remota. Las modificaciones y eliminaciones remotas no se sincronizan automáticamente con Room. El logo se almacena como referencia, no como archivo binario subido al servidor.
 
+### Endpoints REST
+
+URL base en el computador: `http://localhost:8081/`
+
+| Método | Endpoint | Operación |
+|---|---|---|
+| GET | `/api/solicitudes` | Listar todas las solicitudes |
+| GET | `/api/solicitudes/{id}` | Buscar por identificador |
+| POST | `/api/solicitudes` | Crear una solicitud (201) |
+| PUT | `/api/solicitudes/{id}` | Actualizar una solicitud |
+| DELETE | `/api/solicitudes/{id}` | Eliminar una solicitud (204) |
+
+Ejemplo de cuerpo JSON para POST:
+
+```json
+{
+  "nombre": "Empresa de ejemplo",
+  "correo": "contacto@example.com",
+  "direccion": "Santiago",
+  "logoEmpresa": null
+}
 ```
 
-com.example.corpalivappeq13/
+El CRUD se realiza desde el formulario de colaboración y la pantalla de solicitudes recibidas. La búsqueda individual por ID está disponible en la API y el repositorio.
 
-├── MainActivity.kt              // Punto de entrada + NavHost
+## 🌐 API externa: Discapacidad e inclusión
 
-├── data/                        // Room: Entity, DAO, Database, Repository
+Fuente: catálogo público del Ministerio de Desarrollo Social y Familia de Chile (CKAN).
 
-├── domain/                      // Modelos: Product, Request, Favorite
-
-├── ui/
-
-│   ├── screens/                 // Una carpeta por pantalla
-
-│   ├── components/              // Composables reutilizables
-
-│   └── theme/                   // Colores, tipografía, formas (M3)
-
-├── navigation/                  // Screen.kt, NavigationEvent.kt
-
-└── viewmodel/                   // Un ViewModel por pantalla + SharedViewModel
-
+```text
+GET https://bid-ckan.ministeriodesarrollosocial.gob.cl/api/3/action/package_search?q=discapacidad&rows=10
 ```
 
+La consulta devuelve metadatos de conjuntos de datos en JSON. La app muestra sus títulos, descripciones y enlaces a recursos originales. No calcula estadísticas de los archivos CSV.
 
+Componentes: `DiscapacidadDto`, `DiscapacidadApi`, `DiscapacidadRetrofitClient`, `DiscapacidadRepository`, `DiscapacidadViewModel` y `DiscapacidadScreen`.
 
-\---
+La API externa utiliza HTTPS, requiere conexión a Internet y no depende del microservicio local. Se accede desde la opción Discapacidad e inclusión del Drawer.
 
+## 🚀 Cómo ejecutar el proyecto
 
+### Requisitos previos
 
-\## ✅ Funcionalidades implementadas
+- Android Studio compatible con AGP 9.4.1 y Gradle 9.8.0.
+- JDK compatible con la configuración de Gradle; backend configurado para Java 17.
+- Android SDK API 37 (compileSdk y targetSdk declarados); minSdk 24.
+- Emulador Android compatible, preferentemente Google Pixel 8.
+- Internet para descargar dependencias y consultar la API externa.
 
+### 1. Clonar y abrir
 
-
-> ⚠️ \*\*TODO:\*\* Actualizar esta sección a medida que avance el proyecto. Marca `\[x]` solo cuando esté \*\*funcionando y probado\*\*.
-
-
-
-\### Navegación
-
-\- \[x] Navegación entre pantallas con `NavHost` y eventos del `ViewModel`
-
-\- \[ ] Transiciones animadas entre pantallas
-
-
-
-\### Pantallas
-
-\- \[x] Pantalla de Inicio (estructura básica)
-
-\- \[ ] Pantalla de Inicio con métricas e historias de impacto (RF1)
-
-\- \[ ] Catálogo de productos y servicios (RF2)
-
-\- \[ ] Formulario reactivo de contacto (RF3)
-
-\- \[ ] Pantalla de resumen de solicitud (RF6)
-
-\- \[ ] Historial de solicitudes (RF12)
-
-\- \[ ] Calculadora de impacto social (RF11)
-
-\- \[ ] Pantalla de perfil / ajustes
-
-
-
-\### Formularios y validación
-
-\- \[ ] Validaciones en tiempo real en el ViewModel (RF4)
-
-\- \[ ] Retroalimentación visual con `isError` y `supportingText` (RF5)
-
-\- \[ ] Persistencia del formulario ante rotación de pantalla (RNF11)
-
-
-
-\### Persistencia local
-
-\- \[ ] Configuración de Room (Entity, DAO, Database) (RF7)
-
-\- \[ ] Guardado de solicitudes de contacto (RF7)
-
-\- \[ ] Guardado de productos favoritos (RF10)
-
-\- \[ ] Consulta del historial de solicitudes (RF12)
-
-
-
-\### Recursos nativos
-
-\- \[ ] Acceso a la cámara del dispositivo (RF8)
-
-\- \[ ] Acceso a geolocalización (RF8)
-
-
-
-\### Catálogo
-
-\- \[ ] Búsqueda por nombre (RF9)
-
-\- \[ ] Filtro por categoría (RF9)
-
-\- \[ ] Compartir ficha de producto con `ACTION\_SEND` (RF14)
-
-
-
-\### UX / Pulido
-
-\- \[ ] Animaciones de transición y microinteracciones (RNF5)
-
-\- \[ ] Tema oscuro/claro dinámico (RNF8)
-
-\- \[ ] Accesibilidad: `contentDescription` en íconos e imágenes (RNF10)
-
-\- \[ ] Manejo de errores con Snackbar (RNF13)
-
-\- \[ ] AlertDialog de confirmación al eliminar (RF13)
-
-
-
-\---
-
-
-
-\## 🚀 Cómo ejecutar el proyecto
-
-
-
-\### Requisitos previos
-
-
-
-\- \*\*Android Studio\*\* Ladybug (2024.2.1) o superior.
-
-\- \*\*JDK 17\*\* o superior.
-
-\- \*\*Android SDK\*\* con API 34 (Android 14) y mínimo \*\*API 26\*\*.
-
-\- \*\*Emulador configurado como Google Pixel 8\*\* (dispositivo objetivo del proyecto).
-
-\- Conexión a internet para la primera sincronización de Gradle.
-
-
-
-\### Pasos
-
-
-
-1\. \*\*Clonar el repositorio:\*\*
-
-&#x20;  ```bash
-
-&#x20;  git clone https://github.com/carllabbe-dot/corpaliv-app-eq13.git
-
-&#x20;  ```
-
-
-
-2\. \*\*Abrir el proyecto en Android Studio:\*\*
-
-&#x20;  - `File → Open` → seleccionar la carpeta clonada.
-
-
-
-3\. \*\*Sincronizar Gradle:\*\*
-
-&#x20;  - Esperar a que Gradle descargue las dependencias (primera vez puede tardar unos minutos).
-
-
-
-4\. \*\*Configurar el emulador:\*\*
-
-&#x20;  - `Tools → Device Manager → Create Device → Pixel 8 → API 34`.
-
-
-
-5\. \*\*Ejecutar:\*\*
-
-&#x20;  - Presionar \*\*Run ▶️\*\* (Shift + F10).
-
-&#x20;  - La app se abrirá en el emulador.
-
-
-
-\### Notas
-
-
-
-\- La app otorgará permisos de \*\*cámara\*\* y \*\*ubicación\*\* en tiempo de ejecución. Deben aceptarse para probar las funcionalidades nativas.
-
-\- No se requiere backend ni configuración adicional.
-
-
-
-\---
-
-
-
-\## 🌿 Flujo de trabajo en Git
-
-
-
-Seguimos una convención de \*\*ramas por funcionalidad\*\* (`feature/\*`) y \*\*commits descriptivos en español técnico\*\*.
-
-
-
-\### Ramas
-
-
-
-\- `main` → rama estable (solo merge de ramas revisadas).
-
-\- `feature/<nombre-funcionalidad>` → una rama por requisito implementado. Ejemplos:
-
-&#x20; - `feature/rf03-formulario-contacto`
-
-&#x20; - `feature/rf07-room-persistencia`
-
-&#x20; - `feature/rf08-camara-geolocalizacion`
-
-
-
-\### Convención de commits
-
-
-
+```powershell
+git clone https://github.com/carllabbe-dot/corpaliv-app-eq13.git
+cd corpaliv-app-eq13
 ```
 
-<tipo>(<alcance>): <descripción corta en imperativo>
+Abrir la raíz en Android Studio y sincronizar Gradle. Si se usa el ZIP de entrega, descomprimirlo y abrir la carpeta `corpalivappeq13`.
 
+### 2. Ejecutar el backend primero
 
+Desde la raíz del proyecto, en PowerShell:
 
-<cuerpo opcional>
-
+```powershell
+cd backend\ms-solicitudes
+.\mvnw.cmd spring-boot:run
 ```
 
+Alternativamente, abrir el módulo backend en IntelliJ IDEA y ejecutar `MsSolicitudesApplication.java`. Mantener el servidor activo en el puerto 8081.
 
+Verificar desde el navegador: `http://localhost:8081/api/solicitudes`.
 
-\*\*Tipos permitidos:\*\* `feat`, `fix`, `refactor`, `style`, `docs`, `chore`, `test`.
+### 3. Ejecutar Android
 
+En Android Studio, seleccionar el módulo `app`, iniciar el emulador y presionar Run. La aplicación usa `http://10.0.2.2:8081/` para comunicarse con Spring Boot desde el emulador.
 
+El backend **no se inicia automáticamente** con Android ni está incorporado en el APK. En un teléfono físico se requiere configurar una dirección de servidor accesible desde ese dispositivo y recompilar, o configurar una conexión equivalente.
 
-\*\*Ejemplos:\*\*
+### 4. Consultar H2
 
-\- `feat(form): implementar validación de email en FormViewModel`
+Con el servidor activo, abrir `http://localhost:8081/h2-console`.
 
-\- `fix(nav): corregir doble navegación al volver desde resumen`
-
-\- `docs(readme): agregar instrucciones de ejecución`
-
-
-
-\---
-
-
-
-\## 🗂️ Gestión de tareas — Trello
-
-
-
-El tablero de planificación está disponible en:
-
-
-
-🔗 ⚠️ TODO: pegar aquí el enlace público del tablero de Trello
-
-
-
-Columnas utilizadas: \*\*Backlog → To Do → In Progress → Review → Done\*\*.
-
-
-
-\---
-
-
-
-\## 📸 Capturas de pantalla
-
-
-
-> ⚠️ TODO: agregar capturas a medida que avance el proyecto. Se recomienda crear la carpeta `/screenshots` en el repo.
-
-
-
-| Pantalla | Captura |
-
+| Campo | Valor |
 |---|---|
+| Driver Class | `org.h2.Driver` |
+| JDBC URL | `jdbc:h2:file:./data/corpalivdb` |
+| User Name | `sa` |
+| Password | Vacío (configuración local académica) |
 
-| Inicio | ⚠️ TODO |
+```sql
+SELECT * FROM SOLICITUDES;
+```
 
-| Catálogo | ⚠️ TODO |
+## 🧪 Pruebas unitarias
 
-| Formulario | ⚠️ TODO |
+El reporte incluido en el ZIP, generado el 24 de noviembre de 2026, registra 18 pruebas aprobadas, 0 fallos, 0 omitidas y 100% de éxito en 5,375 segundos.
 
-| Resumen | ⚠️ TODO |
+| Clase | Pruebas aprobadas | Alcance |
+|---|---:|---|
+| UsuarioViewModelTest | 7 | Validaciones del formulario |
+| SolicitudRepositoryTest | 7 | CRUD, lista vacía y error de eliminación mediante mocks |
+| MainViewModelTest | 3 | Eventos de navegación |
+| ExampleUnitTest | 1 | Prueba de ejemplo |
+| **Total** | **18** | |
 
-| Historial | ⚠️ TODO |
+Ejecutar desde la raíz Android:
 
+```powershell
+.\gradlew.bat testDebugUnitTest
+```
 
+Abrir el reporte:
 
-\---
+```powershell
+start .\app\build\reports\tests\testDebugUnitTest\index.html
+```
 
+El porcentaje de pruebas exitosas no equivale a cobertura de código. El indicador de pruebas unitarias fue acreditado por el docente según lo informado por el integrante; no se declara un porcentaje de cobertura no respaldado por el reporte.
 
+## 📦 APK firmado
 
-\## 📌 Requisitos del encargo (trazabilidad)
+- Variante: release.
+- Versión: 1.0 (versionCode 1).
+- APK incluido: `app/release/app-release.apk`.
+- Almacén de claves: `corpaliv.jks`, ubicado en la raíz del ZIP de entrega, fuera de la carpeta del proyecto Android.
 
+Se generó desde **Build → Generate Signed App Bundle or APK → APK → release**. Para generar una actualización, utilizar la misma llave y alias correspondientes. No publicar la llave privada ni sus contraseñas en GitHub.
 
+Para instalar en un emulador con ADB configurado:
 
-Este proyecto busca cumplir los 14 requisitos funcionales (RF1–RF14) y los 13 no funcionales (RNF1–RNF13) definidos en el documento de encargo de la asignatura DSY1105. El detalle completo de cada requisito se encuentra en el documento de especificación del equipo.
+```powershell
+adb install -r .\app\release\app-release.apk
+```
 
+Si existe una instalación debug firmada con otra llave, puede ser necesario desinstalarla primero (esto elimina sus datos locales). Verificar la firma con `apksigner verify --verbose --print-certs` del Android SDK Build Tools antes de la entrega.
 
+El APK y el JKS están presentes en el ZIP revisado; la comprobación criptográfica de la firma y la instalación deben realizarse antes de la entrega definitiva.
 
-\---
+## 🌿 Control de versiones y Trello
 
+Repositorio: https://github.com/carllabbe-dot/corpaliv-app-eq13
 
+Convención propuesta de commits: `feat`, `fix`, `refactor`, `docs`, `test` y `chore`, con descripciones del cambio. Ejemplo: `feat(api): integrar catálogo público de discapacidad`.
 
-\## 🔒 Consideraciones de privacidad
+Tablero Trello: **[Agregar enlace real del tablero]**. Adjuntar evidencia de tareas, responsables y avances. No se ha verificado el estado remoto del repositorio ni del tablero.
 
+## 📸 Evidencias de ejecución
 
+Agregar capturas reales en `screenshots/` antes de entregar. Las siguientes rutas son propuestas, no archivos incluidos actualmente:
 
-Conforme a \*\*RNF6\*\*, todo dato mostrado en la app es \*\*sintético o anonimizado\*\*. No se utilizan RUTs, fotografías ni información real de beneficiarios.
+| Evidencia | Archivo sugerido |
+|---|---|
+| Inicio y Drawer | `screenshots/inicio.png` |
+| Formulario validado | `screenshots/formulario.png` |
+| Creación, consulta, edición y eliminación | `screenshots/crud.png` |
+| API externa en ejecución | `screenshots/api-externa.png` |
+| Consola H2 con datos de prueba | `screenshots/h2.png` |
+| Reporte de pruebas | `screenshots/tests.png` |
+| Generación del APK firmado | `screenshots/apk-firmado.png` |
+| Archivo .jks (sin mostrar contraseñas) | `screenshots/keystore.png` |
+| Trello y commits | `screenshots/gestion.png` |
 
+## 📌 Trazabilidad — Evaluación Parcial 4
 
+| Indicador | Evidencia |
+|---|---|
+| Interfaz, navegación y formularios | Pantallas Compose y validaciones |
+| Microservicio y base de datos | Spring Boot, JPA y H2 |
+| Integración CRUD | Formulario, solicitudes, Retrofit y endpoints |
+| API externa | Catálogo CKAN en DiscapacidadScreen |
+| Pruebas unitarias | Reporte Gradle y clases de prueba |
+| APK firmado | APK release y JKS, pendientes de verificación final |
+| Gestión del proyecto | GitHub, Trello y README; evidencias por completar |
 
-\---
+## 🔒 Privacidad y limitaciones
 
+Proyecto académico: utilizar datos ficticios en las solicitudes. Los recursos públicos de discapacidad provienen del Ministerio. La clave del formulario se valida localmente y no se incluye en el DTO remoto. No equivale a un sistema de autenticación.
 
+El backend HTTP y la consola H2 sin contraseña son configuraciones de demostración local, no apropiadas para producción. Antes de un despliegue real se requiere autenticación, autorización, HTTPS, protección de datos y una política de sincronización y almacenamiento de imágenes. No publicar datos personales, contraseñas ni claves privadas.
 
-\## 📄 Licencia
+## 📄 Licencia
 
+Proyecto académico desarrollado para DSY1105 — Desarrollo de Aplicaciones Móviles. Uso educativo.
 
+---
 
-Proyecto académico desarrollado para la asignatura \*\*DSY1105 — Desarrollo de Aplicaciones Móviles\*\*.  
-
-Uso educativo. Todos los derechos reservados a sus autores y a \*\*CORPALIV\*\*.
-
-
-
-\---
-
-
-
-<p align="center">
-
-&#x20; Hecho con ❤️ por el Equipo 13 · DSY1105 · 2026
-
-</p>
-
+Equipo 13 · DSY1105 · 2026
