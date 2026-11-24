@@ -12,11 +12,14 @@ import com.example.corpaliv_app_eq13.data.local.SolicitudEntity
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-
+import com.example.corpaliv_app_eq13.data.remote.SolicitudDto
+import com.example.corpaliv_app_eq13.data.repository.SolicitudRepository
+import android.util.Log
 class UsuarioViewModel : ViewModel() {
 
     private val _estado = MutableStateFlow(UsuarioUiState())
     val estado = _estado.asStateFlow()
+    private val repository = SolicitudRepository()
 
     fun onNombreChange(valor: String) {
         _estado.update {
@@ -26,7 +29,14 @@ class UsuarioViewModel : ViewModel() {
             )
         }
     }
+    private fun correoValido(correo: String): Boolean {
 
+        val patron = Regex(
+            "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+        )
+
+        return patron.matches(correo)
+    }
     fun onCorreoChange(valor: String) {
         _estado.update {
             it.copy(
@@ -78,8 +88,7 @@ class UsuarioViewModel : ViewModel() {
             nombre = if (datos.nombre.isBlank())
                 "El nombre es obligatorio" else null,
 
-            correo = if (!android.util.Patterns.EMAIL_ADDRESS
-                    .matcher(datos.correo).matches())
+            correo = if (!correoValido(datos.correo))
                 "Ingrese un correo válido" else null,
 
             clave = if (datos.clave.length < 6)
@@ -109,6 +118,7 @@ class UsuarioViewModel : ViewModel() {
 
         return !hayErrores && datos.aceptaTerminos
     }
+
     fun guardarSolicitud(
         context: Context,
         onResultado: (Boolean) -> Unit
@@ -117,26 +127,52 @@ class UsuarioViewModel : ViewModel() {
             onResultado(false)
             return
         }
-
         val datos = _estado.value
-
-        val solicitud = SolicitudEntity(
+        val solicitudDto = SolicitudDto(
             nombre = datos.nombre,
             correo = datos.correo,
             direccion = datos.direccion,
             logoEmpresa = datos.logoEmpresa
         )
-
         viewModelScope.launch {
             try {
-                val database = CorpalivDatabase.obtenerInstancia(context)
+                val respuesta = repository.crearSolicitud(
+                    solicitudDto
+                )
 
-                database.solicitudDao().insertar(solicitud)
-
+                Log.d(
+                    "CORPALIV",
+                    "Solicitud creada en servidor: ${respuesta.id}"
+                )
+                try {
+                    val solicitudLocal = SolicitudEntity(
+                        nombre = datos.nombre,
+                        correo = datos.correo,
+                        direccion = datos.direccion,
+                        logoEmpresa = datos.logoEmpresa
+                    )
+                    val database =
+                        CorpalivDatabase.obtenerInstancia(context)
+                    database.solicitudDao().insertar(
+                        solicitudLocal
+                    )
+                } catch (e: Exception) {
+                    Log.e(
+                        "CORPALIV",
+                        "Error guardando copia local",
+                        e
+                    )
+                }
                 onResultado(true)
             } catch (e: Exception) {
+                Log.e(
+                    "CORPALIV",
+                    "Error enviando solicitud al servidor",
+                    e
+                )
                 onResultado(false)
             }
         }
     }
+
 }
