@@ -38,6 +38,10 @@ android {
 }
 
 dependencies {
+    testImplementation("net.bytebuddy:byte-buddy:1.17.8")
+    testImplementation("net.bytebuddy:byte-buddy-agent:1.17.8")
+    implementation("com.squareup.retrofit2:retrofit:2.12.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.12.0")
     implementation(libs.androidx.compose.animation)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
@@ -57,6 +61,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)
+    testImplementation("io.mockk:mockk:1.13.12")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.espresso.core)
