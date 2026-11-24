@@ -33,7 +33,18 @@ fun CorpalivDrawer(
                 )
 
                 HorizontalDivider()
-
+                NavigationDrawerItem(
+                    label = {
+                        Text("Discapacidad e inclusión")
+                    },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                            mainViewModel.navigateTo(Screen.Discapacidad)
+                        }
+                    }
+                )
                 NavigationDrawerItem(
                     label = { Text("Inicio") },
                     selected = false,
@@ -85,6 +96,16 @@ fun CorpalivDrawer(
                         scope.launch {
                             drawerState.close()
                             mainViewModel.navigateTo(Screen.Settings)
+                        }
+                    }
+                )
+                NavigationDrawerItem(
+                    label = { Text("Solicitudes recibidas") },
+                    selected = false,
+                    onClick = {
+                        scope.launch {
+                            drawerState.close()
+                            mainViewModel.navigateTo(Screen.Solicitudes)
                         }
                     }
                 )
